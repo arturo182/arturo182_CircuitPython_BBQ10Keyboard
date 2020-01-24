@@ -1,7 +1,7 @@
 Introduction
 ============
 
-CircuitPython library for interfaceing the BB Q10 Keyboard over I2C.
+CircuitPython library for interfacing the BB Q10 Keyboard over I2C.
 
 The firmware that this library should be used with can be found here: https://github.com/arturo182/bbq10kbd_i2c_sw
 
