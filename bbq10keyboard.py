@@ -61,6 +61,7 @@ _REG_DEB = const(0x06)  # debounce cfg
 _REG_FRQ = const(0x07)  # poll freq cfg
 _REG_RST = const(0x08)  # reset
 _REG_FIF = const(0x09)  # fifo
+_REG_BK2 = const(0x0A)  # backlight2
 
 _WRITE_MASK      = const(1 << 7)
 
@@ -149,5 +150,21 @@ class BBQ10Keyboard:
     def backlight(self, val):
         with self._i2c as i2c:
             self._buffer[0] = _REG_BKL | _WRITE_MASK
+            self._buffer[1] = int(255 * val)
+            i2c.write(self._buffer, end=2)
+
+    @property
+    def backlight2(self):
+        with self._i2c as i2c:
+            self._buffer[0] = _REG_BK2
+            i2c.write(self._buffer, end=1)
+            i2c.readinto(self._buffer, end=1)
+
+        return self._buffer[0] / 255
+
+    @backlight.setter
+    def backlight2(self, val):
+        with self._i2c as i2c:
+            self._buffer[0] = _REG_BK2 | _WRITE_MASK
             self._buffer[1] = int(255 * val)
             i2c.write(self._buffer, end=2)
